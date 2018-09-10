@@ -1,5 +1,6 @@
 package co.grandcircus.FinalProject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,10 +11,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.FinalProject.APIClass.WordResult;
+import co.grandcircus.FinalProject.Dao.UserDao;
 
 
 @Controller
 public class FearController {
+	
+	@Autowired
+	private UserDao userDao;
 	
 	
 	@RequestMapping("/")
