@@ -11,6 +11,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.FinalProject.APIClass.WordResult;
+import co.grandcircus.FinalProject.Dao.FearsDao;
+import co.grandcircus.FinalProject.Dao.MessagesDao;
+import co.grandcircus.FinalProject.Dao.QuotesDao;
 import co.grandcircus.FinalProject.Dao.UserDao;
 
 
@@ -19,6 +22,15 @@ public class FearController {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private FearsDao fearsDao;
+	
+	@Autowired
+	private MessagesDao messagesDao;
+	
+	@Autowired
+	private QuotesDao quotesDao;
 	
 	
 	@RequestMapping("/")
