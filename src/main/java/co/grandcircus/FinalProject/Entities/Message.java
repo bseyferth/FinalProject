@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Messages {
+public class Message {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) 
 	
@@ -16,12 +16,12 @@ public class Messages {
 	private String message;
 	private Long user2id;
 	
-	public Messages() {
+	public Message() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Messages(Long id, Long user1id, String message, Long user2id) {
+	public Message(Long id, Long user1id, String message, Long user2id) {
 		super();
 		this.id = id;
 		this.user1id = user1id;

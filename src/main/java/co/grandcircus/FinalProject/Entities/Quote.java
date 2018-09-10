@@ -6,19 +6,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Quotes {
+public class Quote {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	private Long id;
 	private String quote;
 	
-	public Quotes() {
+	public Quote() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Quotes(Long id, String quote) {
+	public Quote(Long id, String quote) {
 		super();
 		this.id = id;
 		this.quote = quote;

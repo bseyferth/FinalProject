@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public class QuotesDao {
+public class QuoteDao {
 
 	@PersistenceContext 
 	private EntityManager em;

@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Fears {
+public class Fear {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	
@@ -19,12 +19,12 @@ public class Fears {
 	private String step4;
 	private String webMDLink;
 	
-	public Fears() {
+	public Fear() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Fears(Long id, String shortFear, String longFear, String step1, String step2, String step3, String step4,
+	public Fear(Long id, String shortFear, String longFear, String step1, String step2, String step3, String step4,
 			String webMDLink) {
 		super();
 		this.id = id;

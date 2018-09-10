@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public class MessagesDao {
+public class FearDao {
 
 	@PersistenceContext
 	private EntityManager em;
-	
 }

@@ -1,5 +1,6 @@
 package co.grandcircus.FinalProject.Entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,11 +21,13 @@ public class User {
 	private String state;
 	private String zip;
 	private String fearCurrent;
+	@Column(name="ranking")
 	private Integer rank;
 	private Long partnerId;
 	private String fearCompleted;
 	private Long previousPartnerId;
 	private Integer fearProgress;
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
