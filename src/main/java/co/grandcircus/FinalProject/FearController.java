@@ -1,5 +1,7 @@
 package co.grandcircus.FinalProject;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -7,14 +9,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.grandcircus.FinalProject.APIClass.WordResult;
 import co.grandcircus.FinalProject.Dao.FearDao;
 import co.grandcircus.FinalProject.Dao.MessageDao;
 import co.grandcircus.FinalProject.Dao.QuoteDao;
 import co.grandcircus.FinalProject.Dao.UserDao;
+import co.grandcircus.FinalProject.Entities.User;
 
 
 @Controller
@@ -34,8 +39,50 @@ public class FearController {
 	
 	
 	@RequestMapping("/")
-	private ModelAndView showHome() {
+	private ModelAndView showHome(){
 		ModelAndView mav = new ModelAndView("index");
+		return mav;
+	}
+	
+	@RequestMapping("/login")
+	private ModelAndView checkLoginInfo(@RequestParam("username")String username,
+			@RequestParam("password") String password, 
+			HttpSession session,
+			RedirectAttributes redir){
+		//find the matching user.
+		User user = userDao.findbyUsername(username);
+		
+		if(user == null || !password.equals(user.getPassword())) {
+			ModelAndView mav = new ModelAndView("index");
+			mav.addObject("message", "Incorrect username or password");
+			return mav;
+		}
+		//Add first user to session
+		session.setAttribute("user1", user);
+		
+		User partner = userDao.findUserById(user.getPartnerId());
+		session.setAttribute("partner", partner);
+		
+		
+		return new ModelAndView("redirect:/details");
+		
+	}
+	
+	@RequestMapping("/create-account")
+	private ModelAndView createAccount(){
+		ModelAndView mav = new ModelAndView("createAccount");
+		return mav;
+	}
+	
+	@RequestMapping("/create-new-user")
+	private ModelAndView createNewUser(){
+		ModelAndView mav = new ModelAndView("redirect:details");
+		return mav;
+	}
+	
+	@RequestMapping("/details")
+	private ModelAndView showDetails() {
+		ModelAndView mav = new ModelAndView("details");
 		
 		// Create a rest template
 		RestTemplate restTemplate = new RestTemplate();
@@ -62,5 +109,7 @@ public class FearController {
 		return mav;
 
 	}
+	
+	
 
 }
