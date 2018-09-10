@@ -19,6 +19,7 @@ import co.grandcircus.FinalProject.Dao.FearDao;
 import co.grandcircus.FinalProject.Dao.MessageDao;
 import co.grandcircus.FinalProject.Dao.QuoteDao;
 import co.grandcircus.FinalProject.Dao.UserDao;
+import co.grandcircus.FinalProject.Entities.Fear;
 import co.grandcircus.FinalProject.Entities.User;
 
 
@@ -53,19 +54,24 @@ public class FearController {
 		User user = userDao.findbyUsername(username);
 		
 		if(user == null || !password.equals(user.getPassword())) {
-			ModelAndView mav = new ModelAndView("index");
-			mav.addObject("message", "Incorrect username or password");
-			return mav;
-		}
+			redir.addFlashAttribute("message", "Incorrect username or password");
+			return new ModelAndView("redirect:/index");
+		} else {
 		//Add first user to session
 		session.setAttribute("user1", user);
 		
 		User partner = userDao.findUserById(user.getPartnerId());
 		session.setAttribute("partner", partner);
 		
+		Fear userFear = fearDao.findByShort(user.getFearCurrent());
+		session.setAttribute("userFear", userFear);
+		
+		Fear partnerFear = fearDao.findByShort(partner.getFearCurrent());
+		session.setAttribute("partnerFear", partnerFear);
 		
 		return new ModelAndView("redirect:/details");
 		
+	}
 	}
 	
 	@RequestMapping("/create-account")
@@ -76,7 +82,7 @@ public class FearController {
 	
 	@RequestMapping("/create-new-user")
 	private ModelAndView createNewUser(){
-		ModelAndView mav = new ModelAndView("redirect:details");
+		ModelAndView mav = new ModelAndView("redirect:/details");
 		return mav;
 	}
 	
