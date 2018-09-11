@@ -14,5 +14,6 @@
 <p>${partner}</p>
 <p>${userFear}</p>
 <p>${partnerFear }</p>
+<p>${word2}</p>
 </body>
 </html>

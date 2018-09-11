@@ -114,31 +114,63 @@ public class FearController {
 	}
 	
 	@RequestMapping("/details")
-	private ModelAndView showDetails() {
+	private ModelAndView showDetails(HttpSession session) {
 		ModelAndView mav = new ModelAndView("details");
 		
-		// Create a rest template
+		// Create a rest template - This is for the UserFear
 		RestTemplate restTemplate = new RestTemplate();
+		
+		// Create a rest template - This is for the partnerFear
+		RestTemplate restTemplate2 = new RestTemplate();
 
-		// Set up headers.
+		// Set up headers.- This is for the UserFear
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", "application/json");
 		headers.add("app_id", "bab49820");
 		headers.add("app_key", "52d3c38897896527415c368afe8d270e");
+		
+		// Set up headers.- This is for the PartnerFear
+		HttpHeaders headers2 = new HttpHeaders();
+		headers2.add("Accept", "application/json");
+		headers2.add("app_id", "bab49820");
+		headers2.add("app_key", "52d3c38897896527415c368afe8d270e");
 
-		// Set url
-		String url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/arachnophobia/regions=us";
+		
+		//setup fear - This is for the UserFear
+		Fear fear = (Fear) session.getAttribute("userFear");
+		
+		//setup fear2 - This is for the partnerFear
+		Fear fear2 = (Fear) session.getAttribute("partnerFear");
+		
+		// Set url- This is for the UserFear
+		String url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"+ fear.getLongFear() +"/regions=us";
+		
+		// Set url2- This is for the partnerFear
+		String url2 = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"+ fear2.getLongFear() +"/regions=us";
 
-		// Make the Request.
+		// Make the Request.- This is for the UserFear
 		ResponseEntity<WordResult> response = restTemplate.exchange(url,
 				HttpMethod.GET, new HttpEntity<>(headers),
 				WordResult.class);
+		
+		// Make the Request.- This is for the PartnerFear
+		ResponseEntity<WordResult> response2 = restTemplate2.exchange(url2,
+						HttpMethod.GET, new HttpEntity<>(headers2),
+						WordResult.class);
 
-		// Extract body from response.
+		// Extract body from response.- This is for the UserFear
 		WordResult result = response.getBody();
 		
+		// Extract body from response.- This is for the partnerFear
+				WordResult result2 = response2.getBody();
+		
+		//add the fear to the jsp- This is for the UserFear
 		mav.addObject("word", result.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
-		System.out.println(result.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
+		
+		
+		//add the fear to the jsp- This is for the partnerFear
+		mav.addObject("word2", result2.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
+		
 		return mav;
 
 	}
