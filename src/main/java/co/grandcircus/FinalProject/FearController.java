@@ -81,9 +81,36 @@ public class FearController {
 	}
 	
 	@RequestMapping("/create-new-user")
-	private ModelAndView createNewUser(){
-		ModelAndView mav = new ModelAndView("redirect:/details");
-		return mav;
+	private ModelAndView createNewUser(@RequestParam("username") String username,
+										@RequestParam("password") String password,
+										@RequestParam("firstName") String firstName,
+										@RequestParam("lastName") String lastName,
+										@RequestParam("email") String email,
+										@RequestParam("address") String address,
+										@RequestParam("city") String city,
+										@RequestParam("state") String state,
+										@RequestParam("zip") String zip,
+										@RequestParam("fear") String fear,
+										HttpSession session){
+		
+		User user = new User(null, username, password, firstName,lastName,email,address,city,state,zip,fear, 1,null,null,null,0);
+		userDao.create(user);
+		session.setAttribute("user1", user);
+	/*	
+	 * 
+	 * This is where partner assigning is going to go
+	 * 
+	 * 
+		User partner = userDao.findUserById(user.getPartnerId());
+		session.setAttribute("partner", partner);
+		
+		Fear userFear = fearDao.findByShort(user.getFearCurrent());
+		session.setAttribute("userFear", userFear);
+		
+		Fear partnerFear = fearDao.findByShort(partner.getFearCurrent());
+		session.setAttribute("partnerFear", partnerFear);
+	*/
+		return new ModelAndView("redirect:/details");
 	}
 	
 	@RequestMapping("/details")
@@ -114,6 +141,18 @@ public class FearController {
 		System.out.println(result.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
 		return mav;
 
+	}
+	
+	
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpSession session, RedirectAttributes redir) {
+		// invalidate clears the current user session and starts a new one.
+		session.invalidate();
+		
+		// A flash message will only show on the very next page. Then it will go away.
+		// It is useful with redirects since you can't add attributes to the mav.
+		redir.addFlashAttribute("message", "Logged out.");
+		return new ModelAndView("redirect:/");
 	}
 	
 	

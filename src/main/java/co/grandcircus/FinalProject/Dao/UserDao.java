@@ -1,6 +1,6 @@
 package co.grandcircus.FinalProject.Dao;
 
-import java.util.List;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,6 +25,10 @@ public class UserDao {
 		 
 	public User findUserById(Long id) {
 		return em.find(User.class, id);
+	}
+	
+	public void create(User user) {
+		em.persist(user);
 	}
 		 
 }
