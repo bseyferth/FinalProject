@@ -2,6 +2,8 @@ package co.grandcircus.FinalProject.Dao;
 
 
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -29,6 +31,12 @@ public class UserDao {
 	
 	public void create(User user) {
 		em.persist(user);
+	}
+	
+	//access complete list of users
+	public List<User> listAll(){
+		return em.createQuery("FROM User", User.class)
+				.getResultList();
 	}
 		 
 }

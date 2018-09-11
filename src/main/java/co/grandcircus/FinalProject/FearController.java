@@ -1,5 +1,8 @@
 package co.grandcircus.FinalProject;
 
+
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,26 +105,40 @@ public class FearController {
 			
 		} else {
 		*/
-		User user = new User(null, username, password, firstName,lastName,email,address,city,state,zip,fear, 1,null,null,null,0);
-		userDao.create(user);
+	
 		
-		session.setAttribute("user1", user);
-	/*	
-	 * 
-	 * This is where partner assigning is going to go
-	 * 
-	 * 
-		User partner = userDao.findUserById(user.getPartnerId());
-		session.setAttribute("partner", partner);
+		List<User> userList= userDao.listAll();
 		
-		Fear userFear = fearDao.findByShort(user.getFearCurrent());
-		session.setAttribute("userFear", userFear);
+		int i;
+		for(i=0; i< userList.size(); i++ ) {
+			if((userList.get(i).getCity().equals(city)) && (!userList.get(i).getFearCurrent().equals(fear)) && (userList.get(i).getPartnerId() == null)) {
+				Long h= userList.get(i).getId();
+				User user = new User(null, username, password, firstName,lastName,email,address,city,state,zip,fear,1,h,null,null,0);
+				userDao.create(user);
+				
+				System.out.println(user);
+				
+				session.setAttribute("user1", user);
+
+				User partner = userDao.findUserById(h);
+				partner.setPartnerId(user.getId());
+				session.setAttribute("partner", partner);
+				
+				Fear userFear = fearDao.findByShort(fear);
+				session.setAttribute("userFear", userFear);
+				
+				Fear partnerFear = fearDao.findByShort(userDao.findUserById(h).getFearCurrent());
+				session.setAttribute("partnerFear", partnerFear);
+				return new ModelAndView("redirect:/details");
+//				user.setPartnerId(h);
+			}
+			
+		}
 		
-		Fear partnerFear = fearDao.findByShort(partner.getFearCurrent());
-		session.setAttribute("partnerFear", partnerFear);
-	*/
-		return new ModelAndView("redirect:/details");
-	//}
+
+
+		return new ModelAndView("redirect:/createAccount");
+	
 	}
 	
 	@RequestMapping("/details")
