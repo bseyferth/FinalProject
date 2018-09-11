@@ -93,8 +93,18 @@ public class FearController {
 										@RequestParam("fear") String fear,
 										HttpSession session){
 		
+		/*boolean pass = passwordCheck(password);
+		
+		if(pass == false) {
+			
+			redir.addFlashAttribute("message", "Password must contain 1 digit");
+			return new ModelAndView("redirect:/createAccount");
+			
+		} else {
+		*/
 		User user = new User(null, username, password, firstName,lastName,email,address,city,state,zip,fear, 1,null,null,null,0);
 		userDao.create(user);
+		
 		session.setAttribute("user1", user);
 	/*	
 	 * 
@@ -111,6 +121,7 @@ public class FearController {
 		session.setAttribute("partnerFear", partnerFear);
 	*/
 		return new ModelAndView("redirect:/details");
+	//}
 	}
 	
 	@RequestMapping("/details")
@@ -175,7 +186,7 @@ public class FearController {
 
 	}
 	
-	
+/*	
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpSession session, RedirectAttributes redir) {
 		// invalidate clears the current user session and starts a new one.
@@ -187,6 +198,6 @@ public class FearController {
 		return new ModelAndView("redirect:/");
 	}
 	
-	
+*/
 
 }

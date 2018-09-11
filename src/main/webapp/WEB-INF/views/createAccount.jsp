@@ -7,6 +7,7 @@
 <title>New User</title>
 </head>
 <body>
+<p>${message}</p>
 
 <form action = "/create-new-user">
 <p>Create username</p>
