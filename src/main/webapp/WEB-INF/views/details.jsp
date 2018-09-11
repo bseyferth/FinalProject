@@ -15,5 +15,7 @@
 <p>${userFear}</p>
 <p>${partnerFear }</p>
 <p>${word2}</p>
+
+<a href = "/logout">Log Out</a>
 </body>
 </html>

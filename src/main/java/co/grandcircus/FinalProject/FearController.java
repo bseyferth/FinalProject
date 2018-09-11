@@ -203,7 +203,7 @@ public class FearController {
 
 	}
 	
-/*	
+	
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpSession session, RedirectAttributes redir) {
 		// invalidate clears the current user session and starts a new one.
@@ -215,6 +215,6 @@ public class FearController {
 		return new ModelAndView("redirect:/");
 	}
 	
-*/
+
 
 }
