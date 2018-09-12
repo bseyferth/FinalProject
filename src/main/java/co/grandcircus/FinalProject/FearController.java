@@ -40,32 +40,37 @@ public class FearController {
 	@Autowired
 	private QuoteDao quoteDao;
 
-	
+	//maps to the login home page we refer to it as index
 	@RequestMapping("/")
 	private ModelAndView showHome() {
 		ModelAndView mav = new ModelAndView("index");
 		return mav;
 	}
 
+	//This verifies username and password, redirect if no match. Submitting the login form is mapped here.
 	@RequestMapping("/login")
 	private ModelAndView checkLoginInfo(@RequestParam("username") String username,
 			@RequestParam("password") String password, HttpSession session, RedirectAttributes redir) {
 		// find the matching user.
 		User user = userDao.findbyUsername(username);
-
+		//this is where it checks if user exists
 		if(user == null  || !password.equals(user.getPassword())) {
 			 ModelAndView mav = new ModelAndView("index");
 				mav.addObject("message", "Incorrect username or password. Please try again.");
 				return mav; 
 		} 
-		
+		//Here we add the user to the session!!!!
 		session.setAttribute("user1", user);
-				
+		//here we check if that user has a partner		
 		if(user.getPartnerId() == null) {
+			//if the user doesn't have a partner we only add the userfear to sessions
 				Fear userFear = fearDao.findByShort(user.getFearCurrent());
 				session.setAttribute("userFear", userFear);
+				//directs to the details mapping
 				return new ModelAndView("redirect:/details");
 		} else {
+			//if the user does have a partner than we add the partner information and fear to the session
+			//and the user information. the fear is added to sessions using the current user in sessions and their FearCurrent.
 				Fear userFear = fearDao.findByShort(user.getFearCurrent());
 				session.setAttribute("userFear", userFear);
 			
@@ -74,16 +79,19 @@ public class FearController {
 
 				Fear partnerFear = fearDao.findByShort(partner.getFearCurrent());
 				session.setAttribute("partnerFear", partnerFear);
+				//directs to the details mapping
 				return new ModelAndView("redirect:/details");
 		}
 	}
 
+	//long form used to setup a new user
 	@RequestMapping("/create-account")
 	private ModelAndView createAccount() {
 		ModelAndView mav = new ModelAndView("createAccount");
 		return mav;
 	}	
-
+	
+	//receives the information from create-account, and builds user and stores in database
 	@RequestMapping("/create-new-user")
 	private ModelAndView createNewUser(@RequestParam("username") String username,
 			@RequestParam("password") String password, @RequestParam("firstName") String firstName,
@@ -103,30 +111,34 @@ public class FearController {
 		 * } else {
 		 */
 
+		//this is the list of all users in the database we access and create this list using the DAO.
 		List<User> userList = userDao.listAll();
 
+		//this is the for loop that checks the users and whether they meet our criteria to be matched
 		int i;
 		for (i = 0; i < userList.size(); i++) {
 			if ((userList.get(i).getCity().equals(city)) && (!userList.get(i).getFearCurrent().equals(fear))
 					&& (userList.get(i).getPartnerId() == null)) {
 				Long h = userList.get(i).getId();
+				//User gets created with a partner
 				User user = new User(null, username, password, firstName, lastName, email, address, city, state, zip,
 						fear, 1, h, null, null, 0);
+				//user is added to database
 				userDao.create(user);
-
-
-				System.out.println(user);
-
-
+				
+				//setting the user, partner, userfear, and partenr fear to sessions
 				session.setAttribute("user1", user);
-
+				
+					//partner set
 				User partner = userDao.findUserById(h);
 				partner.setPartnerId(user.getId());
 				session.setAttribute("partner", partner);
-
+				
+				//userfear is set here
 				Fear userFear = fearDao.findByShort(fear);
 				session.setAttribute("userFear", userFear);
 
+				//partnerfear is set here
 				Fear partnerFear = fearDao.findByShort(userDao.findUserById(h).getFearCurrent());
 				session.setAttribute("partnerFear", partnerFear);
 				return new ModelAndView("redirect:/details");
@@ -149,31 +161,32 @@ public class FearController {
 		//without a partner MAV
 		ModelAndView mav2 = new ModelAndView("detailsSolo");
 		
-		// Create a rest template - This is for the UserFear
+		//the next steps are the API
+		// Create a rest template - This is for the UserFear - API
 		RestTemplate restTemplate = new RestTemplate();
 
 
-		// Set up headers.- This is for the UserFear
+		// Set up headers.- This is for the UserFear - API
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", "application/json");
 		headers.add("app_id", "bab49820");
 		headers.add("app_key", "52d3c38897896527415c368afe8d270e");
 
-		//setup fear - This is for the UserFear
+		//setup fear - This is for the UserFear - API
 		Fear fear = (Fear) session.getAttribute("userFear");
 		
-		// Set url- This is for the UserFear
+		// Set url- This is for the UserFear - API
 		String url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"+ fear.getLongFear() +"/regions=us";
 		
-		// Make the Request.- This is for the UserFear
+		// Make the Request.- This is for the UserFear - API
 		ResponseEntity<WordResult> response = restTemplate.exchange(url,
 		HttpMethod.GET, new HttpEntity<>(headers),
 		WordResult.class);
 		
-		// Extract body from response.- This is for the UserFear
+		// Extract body from response.- This is for the UserFear - API
 		WordResult result = response.getBody();
 		
-		//add the fear to the jsp- This is for the UserFear
+		//add the fear to the jsp- This is for the UserFear - API
 		mav.addObject("word", result.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
 		mav2.addObject("word", result.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
 
@@ -209,11 +222,6 @@ public class FearController {
 		
 		//add the fear to the jsp- This is for the partnerFear
 		mav.addObject("word2", result2.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
-
-		// add the fear to the jsp- This is for the partnerFear
-		mav.addObject("word2", result2.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses()
-				.get(0).getDefinitions().get(0).getDefinition());
-
 		return mav;
 		}
 	}
@@ -234,10 +242,14 @@ public class FearController {
 		public ModelAndView progress(HttpSession session) {
 			//find partner
 			User assignedPartner = (User) session.getAttribute("partner");
-		
+		if (assignedPartner.getFearProgress() <3) {
 			assignedPartner.setFearProgress((assignedPartner.getFearProgress())+1);
 			userDao.update(assignedPartner);
-			
+		} else {
+			assignedPartner.setFearProgress((assignedPartner.getFearProgress())+1);
+			assignedPartner.setRank((assignedPartner.getRank())+1);
+			userDao.update(assignedPartner);
+		}
 			return new ModelAndView("details");
 	}
 
