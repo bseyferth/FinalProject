@@ -81,7 +81,7 @@ public class FearController {
 	private ModelAndView createAccount(){
 		ModelAndView mav = new ModelAndView("createAccount");
 		return mav;
-	}
+	}	
 	
 	@RequestMapping("/create-new-user")
 	private ModelAndView createNewUser(@RequestParam("username") String username,
@@ -116,8 +116,6 @@ public class FearController {
 				User user = new User(null, username, password, firstName,lastName,email,address,city,state,zip,fear,1,h,null,null,0);
 				userDao.create(user);
 				
-				System.out.println(user);
-				
 				session.setAttribute("user1", user);
 
 				User partner = userDao.findUserById(h);
@@ -130,77 +128,87 @@ public class FearController {
 				Fear partnerFear = fearDao.findByShort(userDao.findUserById(h).getFearCurrent());
 				session.setAttribute("partnerFear", partnerFear);
 				return new ModelAndView("redirect:/details");
-//				user.setPartnerId(h);
 			}
 			
 		}
-		
-
-
-		return new ModelAndView("redirect:/createAccount");
-	
+		//No partner path, collects necessary information if we don't have a matching partner. The Details page will direct
+		//the single user to a detailsSolo jsp. that will contain only the necessary information for a single user
+		User user = new User(null, username, password, firstName,lastName,email,address,city,state,zip,fear,1,null,null,null,0);
+		userDao.create(user);
+		session.setAttribute("user1", user);
+		Fear userFear = fearDao.findByShort(fear);
+		session.setAttribute("userFear", userFear);
+		return new ModelAndView("redirect:/details");
 	}
 	
 	@RequestMapping("/details")
 	private ModelAndView showDetails(HttpSession session) {
 		ModelAndView mav = new ModelAndView("details");
+		ModelAndView mav2 = new ModelAndView("detailsSolo");
 		
 		// Create a rest template - This is for the UserFear
 		RestTemplate restTemplate = new RestTemplate();
 		
-		// Create a rest template - This is for the partnerFear
-		RestTemplate restTemplate2 = new RestTemplate();
-
 		// Set up headers.- This is for the UserFear
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", "application/json");
 		headers.add("app_id", "bab49820");
 		headers.add("app_key", "52d3c38897896527415c368afe8d270e");
 		
+		//setup fear - This is for the UserFear
+		Fear fear = (Fear) session.getAttribute("userFear");
+		
+		// Set url- This is for the UserFear
+		String url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"+ fear.getLongFear() +"/regions=us";
+		
+		// Make the Request.- This is for the UserFear
+		ResponseEntity<WordResult> response = restTemplate.exchange(url,
+		HttpMethod.GET, new HttpEntity<>(headers),
+		WordResult.class);
+		
+		// Extract body from response.- This is for the UserFear
+		WordResult result = response.getBody();
+		
+		//add the fear to the jsp- This is for the UserFear
+		mav.addObject("word", result.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
+		mav2.addObject("word", result.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
+
+		//this checks to see if the user has a partner id assigned, if not then they will see the solo details page
+		User test = (User) session.getAttribute("user1");
+		if(test.getPartnerId() == null) {
+			return mav2;
+			
+		//this path shows populates the information needed if the user does have a partner ID assigned	
+		} else {
+		
+		// Create a rest template - This is for the partnerFear
+		RestTemplate restTemplate2 = new RestTemplate();
+		
 		// Set up headers.- This is for the PartnerFear
 		HttpHeaders headers2 = new HttpHeaders();
 		headers2.add("Accept", "application/json");
 		headers2.add("app_id", "bab49820");
 		headers2.add("app_key", "52d3c38897896527415c368afe8d270e");
-
-		
-		//setup fear - This is for the UserFear
-		Fear fear = (Fear) session.getAttribute("userFear");
 		
 		//setup fear2 - This is for the partnerFear
 		Fear fear2 = (Fear) session.getAttribute("partnerFear");
 		
-		// Set url- This is for the UserFear
-		String url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"+ fear.getLongFear() +"/regions=us";
-		
 		// Set url2- This is for the partnerFear
 		String url2 = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"+ fear2.getLongFear() +"/regions=us";
-
-		// Make the Request.- This is for the UserFear
-		ResponseEntity<WordResult> response = restTemplate.exchange(url,
-				HttpMethod.GET, new HttpEntity<>(headers),
-				WordResult.class);
 		
 		// Make the Request.- This is for the PartnerFear
 		ResponseEntity<WordResult> response2 = restTemplate2.exchange(url2,
 						HttpMethod.GET, new HttpEntity<>(headers2),
 						WordResult.class);
 
-		// Extract body from response.- This is for the UserFear
-		WordResult result = response.getBody();
-		
 		// Extract body from response.- This is for the partnerFear
-				WordResult result2 = response2.getBody();
-		
-		//add the fear to the jsp- This is for the UserFear
-		mav.addObject("word", result.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
-		
+		WordResult result2 = response2.getBody();
 		
 		//add the fear to the jsp- This is for the partnerFear
 		mav.addObject("word2", result2.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
 		
 		return mav;
-
+		}
 	}
 	
 	
