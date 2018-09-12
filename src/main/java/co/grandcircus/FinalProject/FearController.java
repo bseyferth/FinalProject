@@ -12,7 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,35 +56,33 @@ public class FearController {
 		if(user == null  || !password.equals(user.getPassword())) {
 			 ModelAndView mav = new ModelAndView("index");
 				mav.addObject("message", "Incorrect username or password. Please try again.");
-				return mav;
-	    	 
+				return mav; 
 		} 
-				session.setAttribute("user1", user);
-
+		
+		session.setAttribute("user1", user);
+				
+		if(user.getPartnerId() == null) {
+				Fear userFear = fearDao.findByShort(user.getFearCurrent());
+				session.setAttribute("userFear", userFear);
+				return new ModelAndView("redirect:/details");
+		} else {
+				Fear userFear = fearDao.findByShort(user.getFearCurrent());
+				session.setAttribute("userFear", userFear);
+			
 				User partner = userDao.findUserById(user.getPartnerId());
 				session.setAttribute("partner", partner);
 
-				Fear userFear = fearDao.findByShort(user.getFearCurrent());
-				session.setAttribute("userFear", userFear);
-
 				Fear partnerFear = fearDao.findByShort(partner.getFearCurrent());
 				session.setAttribute("partnerFear", partnerFear);
-
 				return new ModelAndView("redirect:/details");
-
-			}
-
+		}
+	}
 
 	@RequestMapping("/create-account")
 	private ModelAndView createAccount() {
 		ModelAndView mav = new ModelAndView("createAccount");
 		return mav;
-
 	}	
-	
-
-	
-
 
 	@RequestMapping("/create-new-user")
 	private ModelAndView createNewUser(@RequestParam("username") String username,
@@ -134,8 +131,6 @@ public class FearController {
 				session.setAttribute("partnerFear", partnerFear);
 				return new ModelAndView("redirect:/details");
 			}
-
-			
 		}
 		//No partner path, collects necessary information if we don't have a matching partner. The Details page will direct
 		//the single user to a detailsSolo jsp. that will contain only the necessary information for a single user
@@ -145,13 +140,13 @@ public class FearController {
 		Fear userFear = fearDao.findByShort(fear);
 		session.setAttribute("userFear", userFear);
 		return new ModelAndView("redirect:/details");
-
 	}
 
 	@RequestMapping("/details")
 	private ModelAndView showDetails(HttpSession session) {
+		//with a partner MAV
 		ModelAndView mav = new ModelAndView("details");
-
+		//without a partner MAV
 		ModelAndView mav2 = new ModelAndView("detailsSolo");
 		
 		// Create a rest template - This is for the UserFear
@@ -164,7 +159,6 @@ public class FearController {
 		headers.add("app_id", "bab49820");
 		headers.add("app_key", "52d3c38897896527415c368afe8d270e");
 
-		
 		//setup fear - This is for the UserFear
 		Fear fear = (Fear) session.getAttribute("userFear");
 		
@@ -188,21 +182,17 @@ public class FearController {
 		if(test.getPartnerId() == null) {
 			return mav2;
 			
-		//this path shows populates the information needed if the user does have a partner ID assigned	
+		//this path shows and populates the information needed if the user does have a partner ID assigned	
 		} else {
 		
 		// Create a rest template - This is for the partnerFear
 		RestTemplate restTemplate2 = new RestTemplate();
 		
-
-
-
 		// Set up headers.- This is for the PartnerFear
 		HttpHeaders headers2 = new HttpHeaders();
 		headers2.add("Accept", "application/json");
 		headers2.add("app_id", "bab49820");
 		headers2.add("app_key", "52d3c38897896527415c368afe8d270e");
-
 		
 		//setup fear2 - This is for the partnerFear
 		Fear fear2 = (Fear) session.getAttribute("partnerFear");
@@ -210,27 +200,19 @@ public class FearController {
 		// Set url2- This is for the partnerFear
 		String url2 = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"+ fear2.getLongFear() +"/regions=us";
 
-
-
-
 		// Make the Request.- This is for the PartnerFear
 		ResponseEntity<WordResult> response2 = restTemplate2.exchange(url2, HttpMethod.GET, new HttpEntity<>(headers2),
 				WordResult.class);
-
 
 		// Extract body from response.- This is for the partnerFear
 		WordResult result2 = response2.getBody();
 		
 		//add the fear to the jsp- This is for the partnerFear
 		mav.addObject("word2", result2.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
-		
-
-
 
 		// add the fear to the jsp- This is for the partnerFear
 		mav.addObject("word2", result2.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses()
 				.get(0).getDefinitions().get(0).getDefinition());
-
 
 		return mav;
 		}
@@ -250,10 +232,8 @@ public class FearController {
 	
 	@RequestMapping("/steps")
 		public ModelAndView progress(HttpSession session) {
-	
-			//find partner and get partner id
+			//find partner
 			User assignedPartner = (User) session.getAttribute("partner");
-		//	Long partnerId = assignedPartner.getPartnerId();
 		
 			assignedPartner.setFearProgress((assignedPartner.getFearProgress())+1);
 			userDao.update(assignedPartner);

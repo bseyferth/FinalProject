@@ -15,7 +15,7 @@
 <p>Currently we have your fear registered as ${userFear.getShortFear()}. Don't worry you and your partner will overcome this fear together!</p>
 <p>Did you know that this fears medical term is: ${userFear.getLongFear() }</p>
 <p>It is defined as: ${word}.</p>
-<p>Here(link) you can access more information</p>
+<p><a href = "${userFear.getWebMDLink()}">Here</a> you can access more information</p>
 <p>Here is what you will need to do to overcome your fear of ${userFear.getShortFear()}</p>
 <p>Step 1: ${userFear.getStep1()}</p>
 <p>Step 1: ${userFear.getStep2()}</p>

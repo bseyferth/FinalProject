@@ -25,7 +25,6 @@ public class UserDao {
 		} catch (NoResultException e)  {
 			return null;
 		}
-
 	}
 
 	public User findUserById(Long id) {
@@ -41,10 +40,7 @@ public class UserDao {
 		return em.createQuery("FROM User", User.class).getResultList();
 	}
 
-
 	public void update(User user){
 		em.merge(user);
-	}
-	
-		 
+	}	 
 }
