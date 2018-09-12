@@ -33,6 +33,12 @@
 <option value = "Spiders">Spiders</option>
 <option value = "Heights">Heights</option>
 <option value = "Germs">Germs</option>
+<option value = "Small Spaces">Small Spaces</option>
+<option value = "Public Speaking">Public Speaking</option>
+<option value = "Needles">Needles</option>
+<option value = "Clowns">Clowns</option>
+<option value = "Driving">Driving</option>
+
 </select>
 <button type = "submit">Create Account</button>
 </form>
