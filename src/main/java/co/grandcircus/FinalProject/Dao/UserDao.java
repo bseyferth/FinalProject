@@ -41,4 +41,9 @@ public class UserDao {
 		return em.createQuery("FROM User", User.class).getResultList();
 	}
 
+	public void update(User user){
+		em.merge(user);
+	}
+	
+		 
 }

@@ -133,6 +133,7 @@ public class FearController {
 
 		}
 
+
 		return new ModelAndView("redirect:/createAccount");
 
 	}
@@ -210,4 +211,18 @@ public class FearController {
 		return new ModelAndView("redirect:/");
 	}
 
-}
+	
+	@RequestMapping("/steps")
+		public ModelAndView progress(HttpSession session) {
+	
+			//find partner and get partner id
+			User assignedPartner = (User) session.getAttribute("partner");
+		//	Long partnerId = assignedPartner.getPartnerId();
+		
+			assignedPartner.setFearProgress((assignedPartner.getFearProgress())+1);
+			userDao.update(assignedPartner);
+			
+			return new ModelAndView("details");
+		}
+	}
+	

@@ -15,6 +15,16 @@
 <p>${userFear}</p>
 <p>${partnerFear }</p>
 <p>${word2}</p>
+<p><a href = "/steps">test</a></p>
+<p>Step 1: <input type="button" value="Complete" onclick="/steps"></p>
+<p>Step 2:  <input type="button" value="Complete" onclick="/steps"></p>
+<p>Step 3:  <input type="button" value="Complete" onclick="steps"></p>
+<p>Step 4:  <input type="button" value="Complete" onclick="steps"></p>
+
+
+
+<p>Progress completed:</p>
+<p><progress value = ${fearProgress } max = 4></progress></p>
 
 <a href = "/logout">Log Out</a>
 </body>
