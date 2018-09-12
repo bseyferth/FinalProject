@@ -133,7 +133,7 @@ public class FearController {
 
 		}
 
-
+		
 		return new ModelAndView("redirect:/createAccount");
 
 	}
@@ -224,5 +224,10 @@ public class FearController {
 			
 			return new ModelAndView("details");
 		}
+
 	}
+
+	
+
+
 	
