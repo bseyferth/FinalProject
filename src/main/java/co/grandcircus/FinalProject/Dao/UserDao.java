@@ -1,10 +1,9 @@
 package co.grandcircus.FinalProject.Dao;
 
-
-
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
@@ -18,25 +17,28 @@ public class UserDao {
 
 	@PersistenceContext
 	private EntityManager em;
-	
+
 	public User findbyUsername(String username) {
-		 return em.createQuery("FROM User WHERE username = :name", User.class)
-				 .setParameter("name", username)
-				 .getSingleResult();
+		try {
+			return em.createQuery("FROM User WHERE username = :name", User.class).setParameter("name", username)
+					.getSingleResult();
+		} catch (NoResultException e)  {
+			return null;
+		}
+
 	}
-		 
+
 	public User findUserById(Long id) {
 		return em.find(User.class, id);
 	}
-	
+
 	public void create(User user) {
 		em.persist(user);
 	}
-	
-	//access complete list of users
-	public List<User> listAll(){
-		return em.createQuery("FROM User", User.class)
-				.getResultList();
+
+	// access complete list of users
+	public List<User> listAll() {
+		return em.createQuery("FROM User", User.class).getResultList();
 	}
-		 
+
 }
