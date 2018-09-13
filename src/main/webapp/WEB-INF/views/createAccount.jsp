@@ -40,6 +40,25 @@
 <option value = "Driving">Driving</option>
 
 </select>
+
+<p>Please note that the following details will be shared with your partner in this app: first name, fear, progress, ranking, and email address. 
+If you are not comfortable sharing these details, please do not use this app.</p>
+
+<p>Disclaimer: Please note that we are not mental health professionals. 
+
+The content offered in Little Victories is solely based on opinion.
+This content is not reviewed by a physician. Do not consider Little Victories as medical advice. Never 
+delay or disregard seeking professional 
+medical advice from your doctor or other qualified healthcare provider because of 
+something you have read on Little Victories. 
+You should 
+ always speak with your doctor before you start, stop, or change any prescribed part of your care plan
+ or treatment. Little Victories understands that accomplishing small victories can be a helpful 
+ step in overcoming fears and relieving anxiety, but it is never a substitute for professional 
+ medical advice, diagnosis, or treatment 
+ from a qualified health care provider. If you think you may have a medical emergency, call 
+ your doctor or dial 911 immediately. </p>
+
 <button type = "submit">Create Account</button>
 </form>
 </body>

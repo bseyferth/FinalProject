@@ -7,6 +7,9 @@
 <title>Login</title>
 </head>
 <body>
+<h1>Little Victories</h1>
+<h3>Welcome! We're excited to help you conquer your fears.</h3>
+<p>Introduction goes here.</p>
 
 ${message}
 
@@ -14,7 +17,7 @@ ${message}
 	<p>Username:</p>
 	<input type = "text" name="username">
 	<p>Password:</p>
-	<input type = "text" name="password">
+	<input type = "password" name="password">
 	<button type = "submit">Log In</button>
 	</form>
 
