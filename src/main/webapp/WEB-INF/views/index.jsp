@@ -11,7 +11,7 @@
 <h3>Welcome! We're excited to help you conquer your fears.</h3>
 <p>We've created an app that is intended to connect people with each other to overcome their fears in a collaborative manner. Our hope is that you will make friends while helping each other improve your quality of life.</p>
 
-${message}
+${specificmessage}
 
 	<form action = "login">
 	<p>Username:</p>
