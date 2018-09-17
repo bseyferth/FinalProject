@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,6 +40,9 @@ public class FearController {
 
 	@Autowired
 	private QuoteDao quoteDao;
+	
+	@Value("${oxford.apikey}")
+	String oxfordApiKey;
 
 	//maps to the login home page we refer to it as index
 	@RequestMapping("/")
@@ -110,6 +114,7 @@ public class FearController {
 		 * 
 		 * } else {
 		 */
+		if((userDao.findbyUsername(username) == null) && (userDao.findbyEmail(email) == null)) {
 
 		//this is the list of all users in the database we access and create this list using the DAO.
 		List<User> userList = userDao.listAll();
@@ -151,8 +156,14 @@ public class FearController {
 		session.setAttribute("user1", user);
 		Fear userFear = fearDao.findByShort(fear);
 		session.setAttribute("userFear", userFear);
-		return new ModelAndView("redirect:/details");
+		return new ModelAndView("redirect:/details");	
+	} else {
+		ModelAndView mav = new ModelAndView("createAccount");
+		mav.addObject("message", "That username or email already exists, please try again.");
+		return mav;	
 	}
+	}
+	
 
 	@RequestMapping("/details")
 	private ModelAndView showDetails(HttpSession session) {
@@ -170,13 +181,14 @@ public class FearController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", "application/json");
 		headers.add("app_id", "bab49820");
-		headers.add("app_key", "52d3c38897896527415c368afe8d270e");
+		headers.add("app_key", oxfordApiKey);
 
 		//setup fear - This is for the UserFear - API
 		Fear fear = (Fear) session.getAttribute("userFear");
 		
 		// Set url- This is for the UserFear - API
 		String url = "https://od-api.oxforddictionaries.com:443/api/v1/entries/en/"+ fear.getLongFear() +"/regions=us";
+		System.out.println(url);
 		
 		// Make the Request.- This is for the UserFear - API
 		ResponseEntity<WordResult> response = restTemplate.exchange(url,
@@ -205,7 +217,7 @@ public class FearController {
 		HttpHeaders headers2 = new HttpHeaders();
 		headers2.add("Accept", "application/json");
 		headers2.add("app_id", "bab49820");
-		headers2.add("app_key", "52d3c38897896527415c368afe8d270e");
+		headers2.add("app_key", oxfordApiKey);
 		
 		//setup fear2 - This is for the partnerFear
 		Fear fear2 = (Fear) session.getAttribute("partnerFear");
@@ -245,7 +257,7 @@ public class FearController {
 		if (assignedPartner.getFearProgress() <3) {
 			assignedPartner.setFearProgress((assignedPartner.getFearProgress())+1);
 			userDao.update(assignedPartner);
-		} else {
+		} else if (assignedPartner.getFearProgress() ==3){
 			assignedPartner.setFearProgress((assignedPartner.getFearProgress())+1);
 			assignedPartner.setRank((assignedPartner.getRank())+1);
 			userDao.update(assignedPartner);
@@ -253,6 +265,79 @@ public class FearController {
 			return new ModelAndView("details");
 	}
 
+	
+	@RequestMapping("/newFearForm")
+	public ModelAndView showNewFearForm(HttpSession session) {
+		ModelAndView mav = new ModelAndView("newFearForm");
+		User user = (User) session.getAttribute("user1");
+		mav.addObject(user);
+		return mav;
+	}
+
+	@RequestMapping("/newFear")
+	public ModelAndView createNewFear(@RequestParam("fear") String fear,
+			HttpSession session) {
+		//find partner
+		User user = (User) session.getAttribute("user1");
+		User assignedPartner = (User) session.getAttribute("partner");
+		
+		if(user.getFearCurrent().equals(fear)) {
+			ModelAndView mav = new ModelAndView("newFearForm");
+			mav.addObject("message", "Please select a new fear. The fear you selected is the one you just got over.");
+			return mav;
+		}
+		
+		user.setFearCurrent(fear);
+		user.setFearProgress(0);
+
+	
+		//this is the list of all users in the database we access and create this list using the DAO.
+		List<User> userList = userDao.listAll();
+
+		//this is the for loop that checks the users and whether they meet our criteria to be matched
+		int i;
+		for (i = 0; i < userList.size(); i++) {
+			if ((userList.get(i).getCity().equals(user.getCity())) && (!userList.get(i).getFearCurrent().equals(fear))
+					&& (userList.get(i).getPartnerId() == null)) {
+				Long h = userList.get(i).getId();
+				user.setPartnerId(h);
+				assignedPartner.setPartnerId(null);
+				//user is added to database
+				userDao.update(user);
+				userDao.update(assignedPartner);
+				//setting the user, partner, userfear, and partenr fear to sessions
+				session.setAttribute("user1", user);
+				
+					//partner set
+				User partner = userDao.findUserById(h);
+				partner.setPartnerId(user.getId());
+				session.setAttribute("partner", partner);
+				userDao.update(partner);
+				
+				//userfear is set here
+				Fear userFear = fearDao.findByShort(fear);
+				session.setAttribute("userFear", userFear);
+
+				//partnerfear is set here
+				Fear partnerFear = fearDao.findByShort(userDao.findUserById(h).getFearCurrent());
+				session.setAttribute("partnerFear", partnerFear);
+				return new ModelAndView("redirect:/details");
+			}
+		}
+		//No partner path, collects necessary information if we don't have a matching partner. The Details page will direct
+		//the single user to a detailsSolo jsp. that will contain only the necessary information for a single user
+		user.setPartnerId(null);
+		user.setFearProgress(0);
+		userDao.update(user);
+		session.setAttribute("user1", user);
+		Fear userFear = fearDao.findByShort(fear);
+		session.setAttribute("userFear", userFear);
+		assignedPartner.setPartnerId(null);
+		userDao.update(assignedPartner);
+		
+		
+		return new ModelAndView("redirect:/details");	
+}
 }
 	
 

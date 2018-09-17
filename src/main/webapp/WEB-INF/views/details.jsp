@@ -15,7 +15,7 @@
 <p>Your ranking is ${user1.getRank()}</p>
 <p>Currently, we have your fear registered as ${userFear.getShortFear()}. Don't worry you and your partner will overcome this fear together!</p>
 <p>The medical term for this fear is: ${userFear.getLongFear() }</p>
-<p>It is defined as: ${word}.</p>
+<p>It is defined as: ${word}</p>
 <p><a href = "${userFear.getWebMDLink()}">Here</a> you can access more information</p>
 <p>Here are the steps you will need to take to overcome your fear of ${userFear.getShortFear()}</p>
 <p>Step 1: ${userFear.getStep1()}</p>
@@ -35,15 +35,16 @@
 <p>It is defined as: ${word2}.</p>
 <p><a href = "${partnerFear.getWebMDLink()}">Here</a> you can access more information</p>
 <p>Here is what your partner will need to do to overcome their fear of ${partnerFear.getShortFear()}</p>
-<p>Step 1: ${partnerFear.getStep1()}<a href = "/steps">test</a></p>
+<p>Step 1: ${partnerFear.getStep1()}<a href = "/steps">Completed Step 1</a></p>
 <p>Step 1:  <input type="button" value="Complete" onclick="steps"></p>
-<p>Step 2: ${partnerFear.getStep2()}<a href = "/steps">test</a></p>
-<p>Step 3: ${partnerFear.getStep3()}<a href = "/steps">test</a></p>
-<p>Step 4: ${partnerFear.getStep4()}<a href = "/steps">test</a></p>
+<p>Step 2: ${partnerFear.getStep2()}<a href = "/steps">Completed Step 2</a></p>
+<p>Step 3: ${partnerFear.getStep3()}<a href = "/steps">Completed Step 3</a></p>
+<p>Step 4: ${partnerFear.getStep4()}<a href = "/steps">Completed Step 4</a></p>
 <p>Your partner's progess:</p>
 <p><progress value = "${partner.getFearProgress()}" max = 4></progress></p>
 <p>Your partner has currently completed ${partner.getFearProgress()} of the 4 steps!</p>
 
 <a href = "/logout">Log Out</a>
+<a href = "/newFearForm">New Fear</a>
 </body>
 </html>

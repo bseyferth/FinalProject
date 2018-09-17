@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
@@ -19,6 +20,7 @@ public class UserDao {
 	private EntityManager em;
 
 	public User findbyUsername(String username) {
+		System.out.println(username);
 		try {
 			return em.createQuery("FROM User WHERE username = :name", User.class).setParameter("name", username)
 					.getSingleResult();
@@ -42,5 +44,18 @@ public class UserDao {
 
 	public void update(User user){
 		em.merge(user);
-	}	 
+	}
+	
+	public User findbyEmail(String email) {
+		try {
+			return em.createQuery("FROM User WHERE email = :name", User.class).setParameter("name", email)
+					.getSingleResult();
+		} catch (NoResultException e)  {
+			return null;
+		}catch (NonUniqueResultException e)  {
+			return null;
+		}catch (NullPointerException e)  {
+			return null;
+		}
+	}
 }
