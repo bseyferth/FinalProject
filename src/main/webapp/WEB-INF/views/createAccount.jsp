@@ -10,7 +10,7 @@
 <p>${message}</p>
 
 <form action = "/create-new-user">
-<input type="hidden" name="facebookId" value="null" />
+<input type="hidden" name="facebookId" value= "" />
 <p>Create username</p>
 <input type = "text" name= "username">
 <p>Create password</p>

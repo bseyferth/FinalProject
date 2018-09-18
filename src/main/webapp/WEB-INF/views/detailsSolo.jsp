@@ -28,6 +28,6 @@
 Please continue to check back in. When a suitable partner becomes available, your profile view will display your partner's information.</p>
 
 <a href = "/logout">Log Out</a>
-
+<a href = "/newFearForm">New Fear</a>
 </body>
 </html>
