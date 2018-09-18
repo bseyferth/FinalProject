@@ -8,9 +8,14 @@
 </head>
 <body>
 <p>${message}</p>
+<p> Logged in from fb. Please create your account here.</p>
+
+<img src="https://graph.facebook.com/${facebookId}/picture?type=large">
+	
 
 <form action = "/create-new-user">
-<input type="hidden" name="facebookId" value="null" />
+<input type="hidden" name="facebookId" value="${facebookId}" />
+
 <p>Create username</p>
 <input type = "text" name= "username">
 <p>Create password</p>

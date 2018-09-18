@@ -22,7 +22,7 @@ public class UserDao {
 		try {
 			return em.createQuery("FROM User WHERE username = :name", User.class).setParameter("name", username)
 					.getSingleResult();
-		} catch (NoResultException e)  {
+		} catch (NoResultException e) {
 			return null;
 		}
 	}
@@ -40,7 +40,23 @@ public class UserDao {
 		return em.createQuery("FROM User", User.class).getResultList();
 	}
 
-	public void update(User user){
+	public void update(User user) {
 		em.merge(user);
-	}	 
+	}
+
+	public User findbyFacebookId(Long facebookId) {
+		// TODO Add try/catch
+		try {
+			return em.createQuery("FROM User WHERE facebook_id = :facebookId", User.class)
+					.setParameter("facebookId", facebookId).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+
+	}
+
+	public void save(User user) {
+
+	}
+
 }

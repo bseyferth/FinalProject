@@ -8,6 +8,7 @@
 <title>User Profile Solo</title>
 </head>
 <body>
+<img src="https://graph.facebook.com/${user1.getFacebookId()}/picture?type=large">
 
 <h3>Hello, ${user1.getFirstName()}</h3> 
 <p>We are excited you have joined to take on your fear!</p>

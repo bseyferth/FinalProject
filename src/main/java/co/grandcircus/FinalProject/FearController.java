@@ -98,6 +98,7 @@ public class FearController {
 			@RequestParam("lastName") String lastName, @RequestParam("email") String email,
 			@RequestParam("address") String address, @RequestParam("city") String city,
 			@RequestParam("state") String state, @RequestParam("zip") String zip, @RequestParam("fear") String fear,
+			@RequestParam("facebookId") Long facebookId,
 			HttpSession session) {
 
 		/*
@@ -117,14 +118,32 @@ public class FearController {
 		//this is the for loop that checks the users and whether they meet our criteria to be matched
 		int i;
 		for (i = 0; i < userList.size(); i++) {
-			if ((userList.get(i).getCity().equals(city)) && (!userList.get(i).getFearCurrent().equals(fear))
+			if ((city.equals(userList.get(i).getCity())) && (!fear.equals(userList.get(i).getFearCurrent()))
 					&& (userList.get(i).getPartnerId() == null)) {
 				Long h = userList.get(i).getId();
+				
+				
 				//User gets created with a partner
-				User user = new User(null, username, password, firstName, lastName, email, address, city, state, zip,
-						fear, 1, h, null, null, 0);
+				if ((session.getAttribute("user") != null)) {
+					User user = (User) session.getAttribute("user");
+				user.setId(null);
+				user.setUsername(username);
+				user.setPassword(password);
+				user.setFirstName(firstName);
+				user.setLastName(lastName);
+				user.setEmail(email);
+				user.setAddress(address);
+				user.setCity(city);
+				user.setState(state);
+				user.setZip(zip);
+				user.setFearCurrent(fear);
+				user.setRank(1);
+				user.setPartnerId(h);
+				user.setFearProgress(0);
+				user.setFacebookId(facebookId);
 				//user is added to database
 				userDao.create(user);
+				
 				
 				//setting the user, partner, userfear, and partenr fear to sessions
 				session.setAttribute("user1", user);
@@ -142,11 +161,45 @@ public class FearController {
 				Fear partnerFear = fearDao.findByShort(userDao.findUserById(h).getFearCurrent());
 				session.setAttribute("partnerFear", partnerFear);
 				return new ModelAndView("redirect:/details");
+				
+				
+				
+				
+				
+				} else {
+					
+					User user = new User(null, username, password, firstName, lastName, email, address, city, state, zip,
+						fear, 1, h, null, null, 0, null);
+				
+				
+				
+				
+				//user is added to database
+				userDao.create(user);
+				
+				
+				//setting the user, partner, userfear, and partenr fear to sessions
+				session.setAttribute("user1", user);
+				
+					//partner set
+				User partner = userDao.findUserById(h);
+				partner.setPartnerId(user.getId());
+				session.setAttribute("partner", partner);
+				
+				//userfear is set here
+				Fear userFear = fearDao.findByShort(fear);
+				session.setAttribute("userFear", userFear);
+
+				//partnerfear is set here
+				Fear partnerFear = fearDao.findByShort(userDao.findUserById(h).getFearCurrent());
+				session.setAttribute("partnerFear", partnerFear);
+				return new ModelAndView("redirect:/details");
+				}
 			}
 		}
 		//No partner path, collects necessary information if we don't have a matching partner. The Details page will direct
 		//the single user to a detailsSolo jsp. that will contain only the necessary information for a single user
-		User user = new User(null, username, password, firstName,lastName,email,address,city,state,zip,fear,1,null,null,null,0);
+		User user = new User(null, username, password, firstName,lastName,email,address,city,state,zip,fear,1,null,null,null,0, facebookId);
 		userDao.create(user);
 		session.setAttribute("user1", user);
 		Fear userFear = fearDao.findByShort(fear);

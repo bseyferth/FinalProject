@@ -17,6 +17,7 @@ public class FearDao {
 	private EntityManager em;
 
 	public Fear findByShort(String fearCurrent) {
+		System.out.println("A: " + fearCurrent);
 		 return em.createQuery("FROM Fear WHERE short_fear = :fear", Fear.class)
 				 .setParameter("fear", fearCurrent)
 				 .getSingleResult();
