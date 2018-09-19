@@ -16,11 +16,8 @@ public class FacebookService {
 	@Value("${facebook.client_secret}")
 	private String clientSecret;
 
-	/**
-	 * Make an HTTP request to Github's server. Get an access token using the provided code.
-	 */
+
 	public String getFacebookAccessToken(String code) {
-		// We'll talk more about rest template in the coming days.
 		Map<String, String> params = new HashMap<>();
 		params.put("code", code);
 		params.put("client_id", "1509075672527896");  
@@ -30,7 +27,7 @@ public class FacebookService {
 		@SuppressWarnings("unchecked")
 		Map<String, String> response = rest.postForObject("https://graph.facebook.com/v3.1/oauth/access_token"
 				+ "", params,
-				Map.class);  //??
+				Map.class);
 		return response.get("access_token");
 	}
 

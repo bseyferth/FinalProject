@@ -27,12 +27,11 @@
 <p><progress value = "${user1.getFearProgress()}" max = 4></progress></p>
 <p>You have currently completed ${user1.getFearProgress()} of the 4 steps!</p>
 
-<!-- DARBY ADDED C:FOREACH LOOP TO DISPLAY ALL MESSAGES RELEVANT TO THE USER -->
 <p>Here are the messages between you and your partner, ${partner.getFirstName()}: </p>
 	<c:forEach var = "userMessage" items = "${userMessages}">
 	From ${userMessage.getSenderName()} on ${userMessage.getMessageSent()}: ${userMessage.getUserMessage()}<br /> 
 	</c:forEach>
-<!-- DARBY ADDED A FORM FOR USER TO SUBMIT NEW MESSAGES -->
+
 <form action = "/messages" id="userform">
 <p>Send ${partner.getFirstName()} a message!</p>
 <textarea name ="messagebox" id= "userform"></textarea>

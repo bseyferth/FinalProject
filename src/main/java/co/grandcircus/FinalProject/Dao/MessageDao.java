@@ -18,8 +18,6 @@ public class MessageDao {
 	@PersistenceContext
 	private EntityManager em;
 	
-	//DARBY ADDED CODE TO MESSAGEDAO
-
 	public Message findMessageById(Long id) {
 		return em.find(Message.class, id);
 	}

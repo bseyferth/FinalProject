@@ -111,16 +111,6 @@ public class FearController {
 			@RequestParam("facebookId") Long facebookId,
 			HttpSession session) {
 
-		/*
-		 * boolean pass = passwordCheck(password);
-		 * 
-		 * if(pass == false) {
-		 * 
-		 * redir.addFlashAttribute("message", "Password must contain 1 digit"); return
-		 * new ModelAndView("redirect:/createAccount");
-		 * 
-		 * } else {
-		 */
 		if((userDao.findbyUsername(username) == null) && (userDao.findbyEmail(email) == null)) {
 
 		//this is the list of all users in the database we access and create this list using the DAO.
@@ -225,7 +215,6 @@ public class FearController {
 	}
 	}
 	
-	//DARBY MADE CHANGES HERE. ADDED  OBJECT TO MAV.
 	@RequestMapping("/details")
 	private ModelAndView showDetails(HttpSession session) {
 		//with a partner MAV
@@ -296,7 +285,6 @@ public class FearController {
 		//add the fear to the jsp- This is for the partnerFear
 		mav.addObject("word2", result2.getResults().get(0).getLexicalEntries().get(0).getEntries().get(0).getSenses().get(0).getDefinitions().get(0).getDefinition());
 	
-	//DARBY ADDED LINES HERE TO ADD MESSAGES TO DETAILS VIEW
 		//create a list of messages ordered by date (all messages)
 		List<Message> userMessages = messageDao.findMessageByDate();
 		
@@ -318,15 +306,13 @@ public class FearController {
 		return mav;
 		}
 	}
-//	}
-	//DARBY CHANGED "message" to "specificmessage" so that it doesn't conflict with the word "message" elsewhere
+
 	@RequestMapping("/logout")
 	public ModelAndView logout(HttpSession session, RedirectAttributes redir) {
 		// invalidate clears the current user session and starts a new one.
 		session.invalidate();
 
 		// A flash message will only show on the very next page. Then it will go away.
-		// It is useful with redirects since you can't add attributes to the mav.
 		redir.addFlashAttribute("specificmessage", "Logged out.");
 		return new ModelAndView("redirect:/");
 	}
@@ -346,7 +332,6 @@ public class FearController {
 			return new ModelAndView("details");
 	}
 	
-	//DARBY ADDED THIS METHOD
 	@RequestMapping("/messages")
 	//request the message that the user entered in the text box
 	public ModelAndView addMessageToDb(HttpSession session, @RequestParam("messagebox") String userMessage) {

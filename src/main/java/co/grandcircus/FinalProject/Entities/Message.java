@@ -17,13 +17,11 @@ public class Message {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) 
 	
-//DARBY SWITCHED PLACES OF MESSAGE AND USER1ID TO MATCH DATABASE(???)
 	private Long id;
 	@Column(name = "user_message")
 	private String userMessage;
 	private Long senderId;
 	private Long receiverId;
-//DARBY ADDED ANNOTATIONS AND NEW COLUMN
 	@Temporal(TemporalType.DATE)
 	@Column(name = "message_sent")
 	@CreationTimestamp
@@ -37,7 +35,6 @@ public class Message {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	//DARBY ALSO SWITCHED ORDER HERE AND ADDED PARAMETERS
 	public Message(Long id, String userMessage, Long senderId, Long receiverId, Date messageSent, String senderName, String receiverName) {
 		super();
 		this.id = id;
@@ -48,7 +45,6 @@ public class Message {
 		this.senderName = senderName;
 		this.receiverName = receiverName;
 	}
-//DARBY ADDED GETTERS AND SETTERS FOR NEW PARAMETERS AND UPDATED TOSTRING
 	public String getSenderName() {
 		return senderName;
 	}
