@@ -64,7 +64,6 @@ public class FearController {
 		//this is where it checks if user exists by checking username and password
 		if(user == null  || !password.equals(user.getPassword())) {
 			 ModelAndView mav = new ModelAndView("index");
-			 	//DARBY CHANGED MESSAGE TO SPECIFICMESSAGE
 				mav.addObject("specificmessage", "Incorrect username or password. Please try again.");
 				return mav; 
 		} 
