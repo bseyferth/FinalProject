@@ -17,17 +17,17 @@ div.a {
    
 }
 h3{
-	color: white;
+	color: gray;
 	text-align: center;
 }
 body {
 	background-color:
 	#3ccdf2;
 }
-p{
+/*p{
 	color: white;
 	text: verdana;
-}
+}*/
 
 
 .container {
@@ -35,7 +35,7 @@ p{
 }
 .form-group{
 	align-self:center;
-=======
+}
 .logo {
 	width: 250px;
 	height: 200px;
@@ -106,8 +106,9 @@ h4{
 
 .userview {
 	/*background-color: #ffeb40;*/
-	background-color: #ffff75;
-	border: 3px solid grey;
+	/*background-color: #ffff75;*/
+	background-color: white;
+	border: 3px solid #ffff75;
 	padding: 20px 50px 20px 50px;
 	margin-bottom: 10px;
 	border-radius: 50px;
@@ -148,5 +149,31 @@ h4{
 
 #partnerfearstats {
 	background-color: #ffff75;
+}
 
+.messagesdiv {
+	background-color: #e0e0d1;
+	display: inline-block;
+	border: 2px solid gray;
+	border-radius: 10px;
+	margin-left: 2px;
+}
+
+.newfear {
+	background-color: #e0e0d1;
+	border: 3px solid gray;
+	padding: 20px 50px 20px 50px;
+	margin: 10% 20% 30% 20%;
+	border-radius: 10px;
+	font-size: 12px;
+	
+}
+
+#addnewfear {
+	color: white;
+	margin-top: 30px;
+}
+
+.newfearlinks {
+	color: white;
 }
