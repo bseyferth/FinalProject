@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 h1{
 	color: white;
 	text-align: center;
@@ -30,4 +31,118 @@ p{
 }
 .form-group{
 	align-self:center;
+=======
+.logo {
+	width: 250px;
+	height: 200px;
+}
+
+body{
+	/*background-color: #89e8ddff;*/
+	background-color: #3ccdf2;
+}
+
+
+p{
+	margin: 0.3em;
+}
+
+.indexpage {
+	text-align: center;
+	margin-width: auto;
+}
+
+.welcome {
+	color: white;
+}
+
+h3 {
+	text-align: center;
+}
+
+h4{
+	color: grey;
+	}
+
+.send-button {
+	background-color: #ffeb40;
+}
+
+.detailsbody {
+	/*background-color: #89e8ddff;*/
+	background-color: #3ccdf2;
+	color: grey;
+}
+
+.loginform {
+	text-align: center;
+}
+
+
+.detailslogo {
+	float: left;
+	width: 100px;
+	height: 80px;
+}
+
+
+
+.hello {
+	display: inline-block;
+	
+}
+
+
+.flex-container {
+	display: flex;
+	flex-direction: row;
+}
+
+
+
+.userview {
+	/*background-color: #ffeb40;*/
+	background-color: #ffff75;
+	border: 3px solid grey;
+	padding: 20px 50px 20px 50px;
+	margin-bottom: 10px;
+	border-radius: 50px;
+	font-size: 12px;
+}
+
+.partnerview {
+	background-color: #e0e0d1;
+	border: 3px solid gray;
+	padding: 20px 50px 20px 50px;
+	margin-bottom: 10px;
+	border-radius: 50px;
+	font-size: 12px;
+	
+}
+
+.line-one {
+	text-align: center;
+}
+
+.stats {
+	background-color: #3ccdf2;
+	color: white;
+	display: inline-block;
+	border: 2px solid gray;
+	float: left;
+	border-radius: 10px;
+	margin-right: 2px;
+}
+.fearstats {
+	background-color: #e0e0d1;
+	display: inline-block;
+	border: 2px solid gray;
+	border-radius: 10px;
+	float: right;
+	margin-left: 2px;
+}
+
+#partnerfearstats {
+	background-color: #ffff75;
+>>>>>>> 7e7f157a6a6992f5a7f9479dd0aecd563af7907c
 }
