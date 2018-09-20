@@ -49,22 +49,49 @@
   </div>
 </nav>
 <body>
+<main class="container">
+
 <p>${message}</p>
-
+<br>
+<br>
+<br>
+<h3> Way to go! We are proud of your accomplishment! Now that you have overcome your fear, we invite you overcome additional fears. Please select another fear to be paired with a new fear partner.</h3>
+<br>
+<br>
+<br>
 <form action = "/newFear">
-<h3>Current Fear: </h3>
+<h3>New Fear : 
 <select name = "fear">
-<option value = "Spiders">Spiders</option>
-<option value = "Heights">Heights</option>
-<option value = "Germs">Germs</option>
-<option value = "Small Spaces">Small Spaces</option>
-<option value = "Public Speaking">Public Speaking</option>
-<option value = "Needles">Needles</option>
-<option value = "Clowns">Clowns</option>
-<option value = "Driving">Driving</option>
+<option value="Spiders">Spiders</option>
+					<option value="Heights">Heights</option>
+					<option value="Germs">Germs</option>
+					<option value="Small Spaces">Small Spaces</option>
+					<option value="Driving">Driving</option>
+					<option value="Fire">Fire</option>
+					<option value="New Technology">New Technology</option>
+					<option value="Cats">Cats</option>
 </select>
-<button type = "submit">Create New Fear</button>
+</h3>
+<br>
+<br>
+<button type = "submit" class="btn btn-primary mb-2">Submit new fear</button>
 </form>
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div a>
+	<p style="color:gold;"> © 2018 Little Victories</p>
+	</div>
+	</main>
 </body>
 </html>

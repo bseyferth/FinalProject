@@ -44,7 +44,7 @@
 		<input type="hidden" name="facebookId" value= "" />
 		<!--  <div class="row"> -->
 			<div class="col-sm-6">
-				<input type="text" class="form-control" placeholder="First Name"name="firstname" required minlength="2" maxlength="10" /> 
+				<input type="text" class="form-control" placeholder="First Name"name="firstName" required minlength="2" maxlength="10" /> 
 				<br>
 				<input type="text" class="form-control" placeholder="Username" name="username" required /> 
 				<br>
@@ -110,12 +110,14 @@
 		 </div> 
 			
 			<div class="col-sm-6">
-				<input type="text" class="form-control" placeholder="Last Name"name="lastname" required minlength="2" maxlength="10" />
+				<input type="text" class="form-control" placeholder="Last Name"name="lastName" required minlength="2" maxlength="10" />
 				<br>
 				<input type="text" class="form-control" placeholder="Password" name="password" required /> 
 				<br>
 				<input type="text" class="form-control" placeholder="Street Address"name="address" required /> 
 				<br> 
+				<input type="text" class="form-control" placeholder="Zipcode"name="zip" required /> 
+				
 				</div>
 		</div>
 		
@@ -125,10 +127,10 @@
 					<option value="Heights">Heights</option>
 					<option value="Germs">Germs</option>
 					<option value="Small Spaces">Small Spaces</option>
-					<option value="Public Speaking">Public Speaking</option>
-					<option value="Needles">Needles</option>
-					<option value="Clowns">Clowns</option>
 					<option value="Driving">Driving</option>
+					<option value="Fire">Fire</option>
+					<option value="New Technology">New Technology</option>
+					<option value="Cats">Cats</option>
 
 				</select> </h3>
 				
@@ -147,12 +149,14 @@
 		<button type="submit" class="btn btn-primary mb-2">Create Account</button>
 	</form>
 	<br>
-		<p>Please note that the following details will be shared with your
+		<div a>
+	
+		<p style="color:gold;">Please note that the following details will be shared with your
 			partner in this app: first name, fear, progress, ranking, and email
 			address. If you are not comfortable sharing these details, please do
 			not use this app.</p>
 <br>
-		<p>Disclaimer: Please note that we are not mental health
+		<p style="color:gold;">Disclaimer: Please note that we are not mental health
 			professionals. The content offered in Little Victories is solely
 			based on opinion. This content is not reviewed by a physician. Do not
 			consider Little Victories as medical advice. Never delay or disregard
@@ -166,6 +170,7 @@
 			advice, diagnosis, or treatment from a qualified health care
 			provider. If you think you may have a medical emergency, call your
 			doctor or dial 911 immediately.</p>
+			</div>
 	</main>
 </body>
 </html>

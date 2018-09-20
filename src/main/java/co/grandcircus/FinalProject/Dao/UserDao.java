@@ -30,7 +30,11 @@ public class UserDao {
 	}
 
 	public User findUserById(Long id) {
+		try {
 		return em.find(User.class, id);
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public void create(User user) {

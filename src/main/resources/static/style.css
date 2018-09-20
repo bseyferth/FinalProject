@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 h1{
 	color: white;
 	text-align: center;
@@ -13,6 +12,10 @@ img{
 	border: 5px solid white;
 	
 }
+div.a {
+    text-align: center;
+   
+}
 h3{
 	color: white;
 	text-align: center;
@@ -22,10 +25,11 @@ body {
 	#3ccdf2;
 }
 p{
-	text-align:center;
-	color: gold;
+	color: white;
 	text: verdana;
 }
+
+
 .container {
 	text-align:center;
 }
@@ -144,5 +148,5 @@ h4{
 
 #partnerfearstats {
 	background-color: #ffff75;
->>>>>>> 7e7f157a6a6992f5a7f9479dd0aecd563af7907c
+
 }

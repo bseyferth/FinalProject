@@ -1,6 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,19 +17,33 @@
   crossorigin="anonymous">
      <link rel="stylesheet" href="/style.css">
   
-  
 <title>User Profile</title>
 
 </head>
-
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">	Little Victories</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="/">Home</a></li>
+            <li><a href = "/newFearForm">Add a new fear</a></li>
+            <li><a href="/logout">Logout</a></li>
+      
+    </ul>
+    
+  </div>
+</nav>
 <body class = "detailsbody">
+<!--  <main class="container"> -->
+  		<img src = "images/Little_Victories_Logo.png">
+
 <div class = "container" class = "col-lg-3">
 
 
 <div class = "container" class = "col-lg-3" class= "clearfix">
 <div class = "hellojumbo">
 	<h1 class = "hello">Hello, ${user1.getFirstName()}!</h1>
-  		<img class = "detailslogo" src = "images/Little_Victories_Logo.png">
     	</div>
     	</div>
 
@@ -129,8 +143,15 @@
 <p>Your partner has currently completed ${partner.getFearProgress()} of the 4 steps!</p>
 
 </div>
-<p><a href = "/logout" class = "bg-secondary text-white">Log Out</a></p>
-<p><a href = "/newFearForm">New Fear</a></p>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div a>
+	<p style="color:gold;"> © 2018 Little Victories</p>
+	</div>
+<!-- </main> -->
 </body>
 </html>

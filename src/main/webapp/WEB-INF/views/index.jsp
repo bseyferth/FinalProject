@@ -65,5 +65,7 @@ Our hope is that you will make friends while helping each other improve your qua
 	<br>
 	<br>
 	<br>
-	<p> © 2018 Little Victories
+	<div a>
+	<p style="color:gold;"> © 2018 Little Victories</p>
+	</div>
 </main>
