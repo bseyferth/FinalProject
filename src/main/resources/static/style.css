@@ -9,7 +9,7 @@ h1{
 img{
 	height: 9em;
 	border-radius: 60px;
-	border: 5px solid white;
+
 	
 }
 div.a {
@@ -24,17 +24,14 @@ body {
 	background-color:
 	#3ccdf2;
 }
-/*p{
-	color: white;
-	text: verdana;
-}*/
 
 
-.container {
-	text-align:center;
+
+/*.container {
+	text-align:center;*/
 }
-.form-group{
-	align-self:center;
+/*.form-group{
+	align-self:center;*/
 }
 .logo {
 	width: 250px;
@@ -106,9 +103,8 @@ h4{
 
 .userview {
 	/*background-color: #ffeb40;*/
-	/*background-color: #ffff75;*/
-	background-color: white;
-	border: 3px solid #ffff75;
+	background-color: #ffff75;
+	border: 3px solid grey;
 	padding: 20px 50px 20px 50px;
 	margin-bottom: 10px;
 	border-radius: 50px;
@@ -137,6 +133,7 @@ h4{
 	float: left;
 	border-radius: 10px;
 	margin-right: 2px;
+	padding: 2px;
 }
 .fearstats {
 	background-color: #e0e0d1;
@@ -145,6 +142,7 @@ h4{
 	border-radius: 10px;
 	float: right;
 	margin-left: 2px;
+	padding: 2px;
 }
 
 #partnerfearstats {
@@ -157,6 +155,7 @@ h4{
 	border: 2px solid gray;
 	border-radius: 10px;
 	margin-left: 2px;
+	padding: 2px;
 }
 
 .newfear {

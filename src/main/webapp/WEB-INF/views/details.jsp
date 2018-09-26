@@ -53,13 +53,13 @@
     	</div>
     	</div>
 
-<div class = "flex-container" class = "d-flex justify-content-center">
+<div class = "flex-container">
 <div class= "userview" class = "clearfix">
 <h3>Your Details</h3>
 <div class = "line-one">
 <p>We are excited you have joined to take on your fear!</p>
 </div>
-<div class = "flex-container" class="d-flex justify-content-center">
+<div class = "flex-container" class="d-flex justify-content-left">
 
 	<div class = "stats">
 		<p>Your username is ${user1.getUsername()}. Use this to log in to your account.</p>
@@ -103,7 +103,7 @@
 <p>You have currently completed ${user1.getFearProgress()} of the 4 steps!</p>
 
 
-<div class = "messagesdiv">
+<div class = "messagesdiv" class = "text-center">
 <p>Here are the messages between you and your partner, ${partner.getFirstName()}: </p>
 	<c:forEach var = "userMessage" items = "${userMessages}">
 	From ${userMessage.getSenderName()} on ${userMessage.getMessageSent()}: ${userMessage.getUserMessage()}<br /> 
@@ -124,7 +124,7 @@
 </div>
 <div class = "stats">
 <p>${partner.getFirstName()}'s current ranking:</p>
-<p> ${partner.getRank()}<span class="fa fa-star"></span></p> <br><br><br>
+<p> ${partner.getRank()}<span class="fa fa-star"></span></p> <br><br>
 </div>
  
 
